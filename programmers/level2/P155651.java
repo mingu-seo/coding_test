@@ -78,7 +78,12 @@ public class P155651 {
         String[] start_t1 = t1[0].split(":");
         String[] end_t1 = t1[1].split(":");
         int start1 = Integer.parseInt(start_t1[0]) * 60 + Integer.parseInt(start_t1[1]);
-        int end1 = Integer.parseInt(end_t1[0]) * 60 + Integer.parseInt(end_t1[1])+10;
+        int end1 = Integer.parseInt(end_t1[0]) * 60;
+        int min = Integer.parseInt(end_t1[1])+10;
+        if (min >= 60) {
+            start1++;
+            end1 = end1 - 60;
+        }
 
         String[] start_t2 = t2[0].split(":");
         String[] end_t2 = t2[1].split(":");
