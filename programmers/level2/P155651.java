@@ -26,7 +26,7 @@ public class P155651 {
 
                 String[] start_t2 = o2[0].split(":");
                 int start2 = Integer.parseInt(start_t2[0]) * 60 + Integer.parseInt(start_t2[1]);
-
+                
                 return start1 - start2;
             }
 
@@ -45,7 +45,7 @@ public class P155651 {
 
         for (int i=1; i<book_time.length; i++) {
             boolean isAdd = true;
-            for (int j=0; j<book.size(); j++) {
+            for (int j=0; j<book.size(); j++) { 
                 int ableCount = 0; // 0 : 대실 가능
                 for (int k=0; k<book.get(j).size(); k++) {
                     if (compareTime(book.get(j).get(k), book_time[i])) { // 가능
