@@ -48,17 +48,10 @@ public class P155651 {
 
         for (int i = 1; i < book_time.length; i++) {
             boolean isAdd = true;
-<<<<<<< HEAD
-            for (int j=0; j<book.size(); j++) { 
-                int ableCount = 0; // 0 : 대실 가능
-                for (int k=0; k<book.get(j).size(); k++) {
-                    if (compareTime(book.get(j).get(k), book_time[i])) { // 가능
-=======
             for (int j = 0; j < room.size(); j++) {
                 int ableCount = 0; // 0 : 각 방의 전체 예약된 시간별 가능 개수
                 for (int k = 0; k < room.get(j).size(); k++) {
                     if (compareTime(room.get(j).get(k), book_time[i])) { // 가능
->>>>>>> 072b575db646cdf2cc4c9e56fdc92938aeb97c67
                         ableCount++;
                     } else {
                         break;
