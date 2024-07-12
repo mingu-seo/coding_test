@@ -1,4 +1,4 @@
-package programmers.level3;
+package level3;
 
 /*
  하노이의 탑
