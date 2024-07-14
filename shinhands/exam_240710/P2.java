@@ -10,8 +10,6 @@ public class P2 {
             long result = p.solution(e);
             System.out.println(result);
         }
-
-        // System.out.println(p.calc("2-1x5-4x3+2"));
     }
 
     public long solution(String expression) {
@@ -20,9 +18,6 @@ public class P2 {
         // 길이는 최대 101이므로 시간복잡도는 문제없지 않을까
         for (int i = 0; i < expression.length(); i += 2) {
             for (int j = i + 2; j <= expression.length(); j += 2) {
-                // System.out.println(expression.substring(0, i)
-                // + "(" + expression.substring(i, j + 1) + ")"
-                // + expression.substring(j + 1));
                 long temp = calc(expression.substring(0, i)
                         + "(" + expression.substring(i, j + 1) + ")"
                         + expression.substring(j + 1));
