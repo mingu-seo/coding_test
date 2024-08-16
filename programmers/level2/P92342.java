@@ -6,7 +6,8 @@ public class P92342 {
     public static void main(String[] args) {
         P92342 p = new P92342();
         // int[] result = p.solution(5, new int[] { 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 });
-        int[] result = p.solution(5, new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+        // int[] result = p.solution(1, new int[] { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
+        int[] result = p.solution(9, new int[] { 0, 0, 1, 2, 0, 1, 1, 1, 1, 1, 1 });
         for (int r : result) {
             System.out.println(r);
         }
@@ -29,7 +30,9 @@ public class P92342 {
         if (idx == ryan.length) {
             if (n > 0)
                 return null;
-
+            // 점수차가 0이하이면 null리턴
+            if (getDiff(info, ryan) <= 0)
+                return null;
             return Arrays.copyOf(ryan, ryan.length);
         }
 
@@ -42,20 +45,18 @@ public class P92342 {
             if (scores == null)
                 continue;
 
-            System.out.println(Arrays.toString(scores));
+            // System.out.println(Arrays.toString(scores));
 
             // 점수차
-            int diff = 0;
-            for (int j = 0; j < scores.length; j++) {
-                if (scores[j] == 0 && info[j] == 0)
-                    continue;
-                if (scores[j] <= info[j]) {
-                    diff -= 10 - i;
-                } else {
-                    diff += 10 - i;
-                }
+            int diff = getDiff(info, scores);
 
-                if (maxDiff < diff) {
+            // System.out.println("diff:" + diff);
+            if (maxDiff < diff) {
+                maxDiff = diff;
+                winner = scores;
+            } else if (maxDiff == diff) {
+                System.out.println("maxDiff:" + maxDiff);
+                if (isThanSmall(winner, scores)) {
                     maxDiff = diff;
                     winner = scores;
                 }
@@ -63,5 +64,30 @@ public class P92342 {
 
         }
         return winner;
+    }
+
+    int getDiff(int[] info, int[] scores) {
+        int diff = 0;
+        for (int j = 0; j < info.length; j++) {
+            if (scores[j] == 0 && info[j] == 0)
+                continue;
+            if (scores[j] <= info[j]) {
+                diff -= 10 - j;
+            } else {
+                diff += 10 - j;
+            }
+        }
+        return diff;
+    }
+
+    // 뒤에서부터 점수비교해서 낮은점수면 승리
+    boolean isThanSmall(int[] my, int[] target) {
+
+        for (int i = target.length - 1; i >= 0; i--) {
+            if (my[i] < target[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 }
