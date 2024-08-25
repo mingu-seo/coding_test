@@ -14,9 +14,75 @@ public class P17683 {
         System.out.println(result);
     }
 
+    List<String> arr = Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B");
+
     public String solution(String m, String[] musicinfos) {
         String answer = "";
-        List<String> arr = Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B");
+
+        // 음분리
+        List<String> mList = mSplit(m);
+
+        System.out.println(mList);
+
+        for (int i = 0; i < musicinfos.length; i++) {
+            String[] musicinfo = musicinfos[i].split(",");
+            System.out.println(Arrays.toString(musicinfo));
+
+            int startHour = Integer.parseInt(musicinfo[0].split(":")[0]);
+            int startMinute = Integer.parseInt(musicinfo[0].split(":")[1]);
+            int endHour = Integer.parseInt(musicinfo[1].split(":")[0]);
+            int endMinute = Integer.parseInt(musicinfo[1].split(":")[1]);
+
+            // 총 플레이 시간
+            int playTime = 0;
+            if (endMinute < startMinute) {
+                startHour--;
+                playTime = endMinute + 60 - startMinute;
+            } else {
+                playTime = endMinute - startMinute;
+            }
+            playTime += (endHour - startHour) * 60;
+            System.out.println("playTime:" + playTime);
+
+            // 실제재생된 음구하기
+            // 입력값음분리
+            List<String> mSplit = mSplit(musicinfo[3]);
+            System.out.println(mSplit);
+            // 플레이시간만큼 음추가
+            int idx = 0;
+            while (mSplit.size() < playTime) {
+                mSplit.add(String.valueOf(musicinfo[3].charAt(idx++)));
+                if (idx == musicinfo[3].length()) {
+                    idx = 0;
+                }
+            }
+            System.out.println(mSplit);
+
+            for (int j = 0; j < mSplit.size(); j++) {
+                int equalCount = 0;
+                int mListIdx = 0;
+                while (mListIdx < mList.size() - 1) {
+                    System.out
+                            .println("mSplit.get(j):" + mSplit.get(j) + " mList.get(mListIdx):" + mList.get(mListIdx));
+                    if (mSplit.get(j).equals(mList.get(mListIdx))) {
+
+                        equalCount++;
+                    } else {
+                        equalCount = 0;
+                    }
+                    if (equalCount == mList.size()) {
+                        answer = musicinfo[2];
+                    }
+                    mListIdx++;
+                }
+
+            }
+        }
+        return answer;
+    }
+
+    // 음분리
+    List<String> mSplit(String m) {
         List<String> mList = new ArrayList<>();
 
         for (int i = 0; i < m.length(); i++) {
@@ -32,12 +98,6 @@ public class P17683 {
                 mList.add(mStr);
             }
         }
-        System.out.println(mList);
-
-        for (int i = 0; i < musicinfos.length; i++) {
-            String[] musicinfo = musicinfos[i].split(",");
-            System.out.println(Arrays.toString(musicinfo));
-        }
-        return answer;
+        return mList;
     }
 }
