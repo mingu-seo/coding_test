@@ -7,17 +7,17 @@ import java.util.List;
 public class P17683 {
     public static void main(String[] args) {
         P17683 p = new P17683();
-        String result = p.solution("ABCDEFG", new String[] {
-                "12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF" });
-        // String result = p.solution("CC#BCC#BCC#BCC#B",
-        // new String[] { "03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B" });
+        // String result = p.solution("ABCDEFG", new String[] {
+        //         "12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF" });
+        String result = p.solution("CC#BCC#BCC#BCC#B",
+        new String[] { "03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B" });
         System.out.println(result);
     }
 
     List<String> arr = Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B");
 
     public String solution(String m, String[] musicinfos) {
-        String answer = "";
+        String answer = "(None)";
 
         // 음분리
         List<String> mList = mSplit(m);
@@ -50,32 +50,21 @@ public class P17683 {
             System.out.println(mSplit);
             // 플레이시간만큼 음추가
             int idx = 0;
+            // 비교하기 전에 원래 음저장해놓은 변수
+            List<String> mSplitOrg = new ArrayList<>(mSplit);
             while (mSplit.size() < playTime) {
-                mSplit.add(String.valueOf(musicinfo[3].charAt(idx++)));
-                if (idx == musicinfo[3].length()) {
+                System.out.println(mSplitOrg+", idx:"+idx);
+                mSplit.add(mSplitOrg.get(idx++));
+                if (idx == mSplitOrg.size()) {
                     idx = 0;
                 }
             }
             System.out.println(mSplit);
 
-            for (int j = 0; j < mSplit.size(); j++) {
-                int equalCount = 0;
-                int mListIdx = 0;
-                while (mListIdx < mList.size() - 1) {
-                    System.out
-                            .println("mSplit.get(j):" + mSplit.get(j) + " mList.get(mListIdx):" + mList.get(mListIdx));
-                    if (mSplit.get(j).equals(mList.get(mListIdx))) {
-
-                        equalCount++;
-                    } else {
-                        equalCount = 0;
-                    }
-                    if (equalCount == mList.size()) {
-                        answer = musicinfo[2];
-                    }
-                    mListIdx++;
-                }
-
+            boolean isSub = isSubarray(mSplit, mList);
+            System.out.println("isSub:"+isSub);
+            if (isSub) {
+                answer = musicinfo[2];
             }
         }
         return answer;
@@ -99,5 +88,33 @@ public class P17683 {
             }
         }
         return mList;
+    }
+
+    // 부분배열인지 여부
+    boolean isSubarray(List<String> a, List<String> b) {
+        int n = a.size();
+        int m = b.size();
+
+        // b 배열이 a 배열보다 길면 부분 배열이 될 수 없음
+        if (m > n) {
+            return false;
+        }
+
+        // a 배열에서 b 배열이 부분 배열인지 확인
+        for (int i = 0; i <= n - m; i++) {
+            int j;
+            for (j = 0; j < m; j++) {
+                if (!a.get(i+j).equals(b.get(j))) {
+                    break;
+                }
+            }
+
+            // b 배열이 a 배열의 부분 배열일 경우
+            if (j == m) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
