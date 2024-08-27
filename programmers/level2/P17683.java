@@ -9,8 +9,10 @@ public class P17683 {
         P17683 p = new P17683();
         // String result = p.solution("ABCDEFG", new String[] {
         //         "12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF" });
-        String result = p.solution("CC#BCC#BCC#BCC#B",
-        new String[] { "03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B" });
+        // String result = p.solution("CC#BCC#BCC#BCC#B",
+        // new String[] { "03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B" });
+        String result = p.solution("ABCDEFG",
+        new String[] { "23:50,00:00,HELLO,CDEFGAB", "12:57,13:11,BYE,CDEFGAB" });
         System.out.println(result);
     }
 
@@ -18,15 +20,16 @@ public class P17683 {
 
     public String solution(String m, String[] musicinfos) {
         String answer = "(None)";
+        int maxPlayTime = 0; // 플레이시간을 비교하기 위한 변수
 
         // 음분리
         List<String> mList = mSplit(m);
 
-        System.out.println(mList);
+        // System.out.println(mList);
 
         for (int i = 0; i < musicinfos.length; i++) {
             String[] musicinfo = musicinfos[i].split(",");
-            System.out.println(Arrays.toString(musicinfo));
+            // System.out.println(Arrays.toString(musicinfo));
 
             int startHour = Integer.parseInt(musicinfo[0].split(":")[0]);
             int startMinute = Integer.parseInt(musicinfo[0].split(":")[1]);
@@ -36,24 +39,36 @@ public class P17683 {
             // 총 플레이 시간
             int playTime = 0;
             if (endMinute < startMinute) {
-                startHour--;
+                if (endHour == 0) {
+                    endHour = 23;
+                } else {
+                    endHour--;
+                }
                 playTime = endMinute + 60 - startMinute;
             } else {
                 playTime = endMinute - startMinute;
             }
             playTime += (endHour - startHour) * 60;
-            System.out.println("playTime:" + playTime);
+            
+            // System.out.println("playTime:" + playTime);
 
             // 실제재생된 음구하기
             // 입력값음분리
             List<String> mSplit = mSplit(musicinfo[3]);
-            System.out.println(mSplit);
+            // 30번 히든케이스
+            // 플레이시간보다 음이 더 긴 경우 플레이시간만큼만 두고 나머지값 삭제로직 추가
+            if (mSplit.size() > playTime) {
+                for (int j=playTime-1; j<mSplit.size(); j++) {
+                    mSplit.remove(mSplit.size()-1);
+                }
+            }
+            // System.out.println(mSplit);
             // 플레이시간만큼 음추가
             int idx = 0;
             // 비교하기 전에 원래 음저장해놓은 변수
             List<String> mSplitOrg = new ArrayList<>(mSplit);
             while (mSplit.size() < playTime) {
-                System.out.println(mSplitOrg+", idx:"+idx);
+                // System.out.println(mSplitOrg+", idx:"+idx);
                 mSplit.add(mSplitOrg.get(idx++));
                 if (idx == mSplitOrg.size()) {
                     idx = 0;
@@ -62,9 +77,10 @@ public class P17683 {
             System.out.println(mSplit);
 
             boolean isSub = isSubarray(mSplit, mList);
-            System.out.println("isSub:"+isSub);
-            if (isSub) {
+            // System.out.println("isSub:"+isSub);
+            if (isSub && maxPlayTime < playTime) {
                 answer = musicinfo[2];
+                maxPlayTime = playTime;
             }
         }
         return answer;
