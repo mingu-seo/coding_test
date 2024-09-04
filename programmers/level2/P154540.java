@@ -29,17 +29,17 @@ public class P154540 {
             }
         }
 
-        for (String[] arr : mapsMatrix) {
-            System.out.println(Arrays.toString(arr));
-        }
+        // for (String[] arr : mapsMatrix) {
+        //     System.out.println(Arrays.toString(arr));
+        // }
 
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < mapsMatrix.length; i++) {
             for (int j=0; j<mapsMatrix[i].length; j++) {
-                System.out.println("i:"+i+" j:"+j);
+                // System.out.println("i:"+i+" j:"+j);
                 search(i, j);
 
-                System.out.println(list);
+                // System.out.println(list);
                 int total = 0;
                 for (Integer n : list) {
                     total += n;
@@ -49,8 +49,8 @@ public class P154540 {
             }
             
         }
-        System.out.println(list);
-        System.out.println(result);
+        // System.out.println(list);
+        // System.out.println(result);
         if (result.size() == 0) {
             answer = new int[]{-1};
         } else {
@@ -68,7 +68,7 @@ public class P154540 {
         if ("X".equals(mapsMatrix[x][y])) {
             return;
         }
-        System.out.println("x:"+x+" y:"+y);
+        // System.out.println("x:"+x+" y:"+y);
         list.add(Integer.parseInt(mapsMatrix[x][y]));
         mapsMatrix[x][y] = "X";
         if (x > 0) search(x-1, y);
