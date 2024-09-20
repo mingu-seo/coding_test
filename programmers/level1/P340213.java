@@ -8,12 +8,19 @@ public class P340213 {
         P340213 p = new P340213();
         // String result = p.solution("34:33", "13:00", "00:55", "02:55", new String[] {
         // "next", "prev" });
-        String result = p.solution("10:55", "00:05", "00:15", "06:55", new String[] { "prev", "next", "next" });
+        // String result = p.solution("10:55", "00:05", "00:15", "06:55", new String[] {
+        // "prev", "next", "next" });
+        String result = p.solution("07:22", "04:05", "00:15", "04:07", new String[] { "next" });
         System.out.println(result);
     }
 
     public String solution(String video_len, String pos, String op_start, String op_end, String[] commands) {
         String answer = "";
+        // 비디오 길이 정수로 변환
+        String[] lenArr = video_len.split(":");
+        int len_m = Integer.parseInt(lenArr[0]); // 비디오 길이분
+        int len_s = Integer.parseInt(lenArr[1]); // 비디오 길이초
+
         // 위치 정수로 변환
         String[] posArr = pos.split(":");
         int pos_m = Integer.parseInt(posArr[0]); // 위치분
@@ -39,10 +46,17 @@ public class P340213 {
                     pos_m++;
                     pos_s -= 60;
                 }
+
+                if (pos_m >= len_m && pos_s > len_s) {
+                    pos_m = len_m;
+                    pos_s = len_s;
+                }
             }
             if ("prev".equals(command)) {
                 pos_s -= 10;
-                if (pos_s < 0) {
+                if (pos_m == 0 && pos_s < 0) {
+                    pos_s = 0;
+                } else if (pos_s < 0) {
                     pos_m--;
                     pos_s += 60;
                 }
