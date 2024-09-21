@@ -10,7 +10,8 @@ public class P340213 {
         // "next", "prev" });
         // String result = p.solution("10:55", "00:05", "00:15", "06:55", new String[] {
         // "prev", "next", "next" });
-        String result = p.solution("07:22", "04:05", "00:15", "04:07", new String[] { "next" });
+        // String result = p.solution(÷"07:22", "04:05", "00:15", "04:07", new String[] { "next" });
+        String result = p.solution("30:00", "01:55", "01:00", "01:30", new String[] { "next" });
         System.out.println(result);
     }
 
@@ -74,8 +75,8 @@ public class P340213 {
     // 오프닝 구간인지 체크 (위치분, 위치초, 오프닝시작분, 오프닝시작초, 오프닝끝분, 오프닝끝초)
     int[] openingCheck(int pos_m, int pos_s, int op_s_m, int op_s_s, int op_e_m, int op_e_s) {
         if ((op_s_m < pos_m && op_e_m > pos_m) // 오프닝시작분보다 크거나 오프닝끝분보다 작으면 (붙인 같은 경우 제외)
-                || (op_s_m == pos_m && op_s_s <= pos_s) // 오프닝시작분과 같으면, 초가 오프닝시작초보다 크거나 같으면
-                || (op_e_m == pos_m && op_e_s >= pos_s)) { // 오프닝끝분과 같으면, 초가 오프닝끝초보다 작거나 같으면
+                || ((op_s_m == pos_m && op_s_s <= pos_s) // 오프닝시작분과 같으면, 초가 오프닝시작초보다 크거나 같으면
+                && (op_e_m == pos_m && op_e_s >= pos_s))) { // 오프닝끝분과 같으면, 초가 오프닝끝초보다 작거나 같으면
             // 오프닝끝 분/초로 변경
             pos_m = op_e_m;
             pos_s = op_e_s;
