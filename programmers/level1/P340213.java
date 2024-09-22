@@ -62,6 +62,7 @@ public class P340213 {
                     pos_s += 60;
                 }
             }
+            // System.out.println("pos_m:"+pos_m+", pos_s:"+pos_s);
             // 오프닝 구간인지 체크
             result = openingCheck(pos_m, pos_s, op_s_m, op_s_s, op_e_m, op_e_s);
             pos_m = result[0];
@@ -74,10 +75,16 @@ public class P340213 {
 
     // 오프닝 구간인지 체크 (위치분, 위치초, 오프닝시작분, 오프닝시작초, 오프닝끝분, 오프닝끝초)
     int[] openingCheck(int pos_m, int pos_s, int op_s_m, int op_s_s, int op_e_m, int op_e_s) {
-        if ((op_s_m < pos_m && op_e_m > pos_m) // 오프닝시작분보다 크거나 오프닝끝분보다 작으면 (붙인 같은 경우 제외)
-                || ((op_s_m == pos_m && op_s_s <= pos_s) // 오프닝시작분과 같으면, 초가 오프닝시작초보다 크거나 같으면
-                && (op_e_m == pos_m && op_e_s >= pos_s))) { // 오프닝끝분과 같으면, 초가 오프닝끝초보다 작거나 같으면
+        // System.out.println("start:"+op_s_m+":"+op_s_s);
+        // System.out.println("end:"+op_e_m+":"+op_e_s);
+        // System.out.println("pos:"+pos_m+":"+pos_s);
+        // 조건으로 처리하지말고 분으로 환산해서 비교하자
+        int start = op_s_m * 60 + op_s_s;
+        int end = op_e_m * 60 + op_e_s;
+        int pos = pos_m * 60 + pos_s;
+        if (start <= pos && pos <= end) { 
             // 오프닝끝 분/초로 변경
+            System.out.println("타나");
             pos_m = op_e_m;
             pos_s = op_e_s;
         }
