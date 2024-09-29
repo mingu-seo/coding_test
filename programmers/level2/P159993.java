@@ -15,6 +15,8 @@ public class P159993 {
      * 예전에 미로찾기 문제를 재귀로 풀었었나? 그거 응용하면 가능하지 않을까?
      * 
      * bfs형태로 모든 좌표의 네방향을 체크해서 방문여부와 현재 거리카운트값을 1더해서 구해봄(47.8)
+     * 거리카운트값 +1 처리하는 코드와 방문여부 true로 변경하는 코드를 조건에 targt과 일치하지않는 경우(else)에 넣지 않고, 무조건
+     * 처리되도록 수정
      */
 
     public int solution(String[] maps) {
@@ -26,12 +28,12 @@ public class P159993 {
             }
         }
 
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                System.out.print(map[i][j] + " ");
-            }
-            System.out.println();
-        }
+        // for (int i = 0; i < map.length; i++) {
+        // for (int j = 0; j < map[i].length; j++) {
+        // System.out.print(map[i][j] + " ");
+        // }
+        // System.out.println();
+        // }
 
         // 시작/도착/레버좌표 찾기
         int[] start = new int[2];
@@ -53,29 +55,30 @@ public class P159993 {
                 }
             }
         }
-        System.out.println(Arrays.toString(start));
-        System.out.println(Arrays.toString(end));
-        System.out.println(Arrays.toString(lever));
+        // System.out.println(Arrays.toString(start));
+        // System.out.println(Arrays.toString(end));
+        // System.out.println(Arrays.toString(lever));
 
         // 시작->레버까지 최단거리
-        int d1 = search(map, start, lever, "L");
+        int d1 = search(map, start, lever);
 
         if (d1 == 0)
             return -1;
 
         // 레버->도착 최단거리
-        int d2 = search(map, lever, end, "E");
+        int d2 = search(map, lever, end);
 
         if (d2 == 0)
             return -1;
 
-        answer = d1 + d2;
+        answer = d1 + d2; // 두 거리값 합계
 
         return answer;
     }
 
     // bfs형태로?
-    int search(String[][] map, int[] start, int[] end, String target) {
+    // map:전체배열, start:시작좌표, end:도착좌표
+    int search(String[][] map, int[] start, int[] end) {
         int[] dx = { 0, 0, -1, 1 };
         int[] dy = { -1, 1, 0, 0 };
         Queue<int[]> route = new LinkedList<>(); // 큐
@@ -106,17 +109,19 @@ public class P159993 {
                         continue;
                     }
 
-                    if (target.equals(map[nextX][nextY])) {
+                    result[nextX][nextY] = result[curX][curY] + 1; // 다음좌표 거리값=현재좌표 거리값+1
+                    visited[nextX][nextY] = true; // 방문여부 처리
+                    // if (target.equals(map[nextX][nextY])) {
+                    if (end[0] == nextX && end[1] == nextY) {
                         count = result[curX][curY] + 1;
                         break;
                     } else {
-                        result[nextX][nextY] = result[curX][curY] + 1;
-                        visited[nextX][nextY] = true;
-                        route.add(new int[] { nextX, nextY });
+                        route.add(new int[] { nextX, nextY }); // 방문경로큐에 추가
                     }
                 }
             }
         }
+
         return count;
     }
 }
