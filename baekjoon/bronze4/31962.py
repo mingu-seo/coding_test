@@ -5,4 +5,4 @@ for _ in range(N) :
     if S+T <= X :
         if v < S :
             v = S
-print(v)
+print(v) 
