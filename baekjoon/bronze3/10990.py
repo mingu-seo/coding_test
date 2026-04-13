@@ -10,5 +10,9 @@ for i in range(N) :
     for j in range(l) :
         if j == 0 : print('*', end='')
         elif j > 0 and j == l-1 : print('*', end='')
-        else : print(' ', end='')
+        else : 
+            if i < N-1 :
+                print(' ', end='')
+            else :
+                print('*', end='')
     print()
